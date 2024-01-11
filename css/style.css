@@ -1,0 +1,67 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Utility */
+
+header {
+    height: 80px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    margin-left: 15px;
+}
+
+body {
+    background-color: rgb(127, 255, 212);
+}
+
+.container {
+    width: 100%;
+    max-width: 1080px;
+    height: 800px;
+    margin: 0 auto;
+}
+
+button {
+    padding: 5px;
+    height: 30px;
+    text-align: center;
+    margin-right: 15px;
+}
+
+span {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+/* Grid */
+
+#grid {
+    width: 700px;
+    height: 700px;
+    margin: 50px auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#grid .cell {
+    width: calc(100% / 10);
+    height: calc(100% / 10);
+    border: 2px solid black;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#grid .clicked {
+    background-color: dodgerblue;
+    cursor: not-allowed;
+}
