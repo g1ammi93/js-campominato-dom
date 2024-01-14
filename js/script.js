@@ -18,12 +18,22 @@ const createCell = (content) => {
 // Funzione creazione bombe
 
 const casualBombs = (cells, totalBombs) => {
-    const bomb = [];
-    while (bomb.lenght < totalBombs) {
+    const bombs = [];
+    while (bombs.length < totalBombs) {
+
         const randomNumber = Math.floor(Math.random() * cells) + 1;
-        if (!bomb.includes(randomNumber)) bomb.push(randomNumber);
+        if (!bombs.includes(randomNumber)) bombs.push(randomNumber);
     }
-    return bomb;
+    return bombs;
+}
+
+// Funzione di fine gioco
+const endGame = (score, hasWon = false) => {
+    const message = hasWon ? 'Sei un grande, nulla da dire!' : 'Hai perso! Punti totali: ' + score;
+
+    alert(message);
+
+    gameOver = true;
 }
 
 // Rows and Cols
@@ -43,6 +53,9 @@ let gameOver = false;
 
 button.addEventListener('click', function () {
 
+    gameOver = false;
+    button.innerText = 'Ricomincia'
+
     // Preparo il punteggio
     let score = 0;
     // Scrivo il punteggio in pagina
@@ -52,6 +65,12 @@ button.addEventListener('click', function () {
     while (grid.firstChild) {
         grid.removeChild(grid.firstChild);
     }
+
+
+    // generiamo le bombe
+
+    const bombs = casualBombs(totalCells, totalBombs);
+    console.log(bombs)
 
     // Creo un ciclo for perchè mi servirà la i
 
@@ -64,24 +83,32 @@ button.addEventListener('click', function () {
         // Aggiungo le funzioni al click
 
         cell.addEventListener('click', () => {
+            if (gameOver) return;
             // Rendiamo le celle cliccabili una sola volta
             if (cell.classList.contains('clicked')) return;
             // Aggiungiamo la classe clicked
             cell.classList.add('clicked');
-            // Modifico ed incremento il punteggio in pagina
-            playerScore.innerHTML = `Score: ${++score}`
             // Quando clicco su una cella metto il numero in console
             console.log('Cella cliccata numero:', i)
             // Controllo che non sia stata colpita una bomba
             const hasHitBomb = bombs.includes(parseInt(cell.innerText));
 
+            if (hasHitBomb) {
+                cell.classList.add('bomb');
+                endGame(score, false);
+            } else {
+                // Modifico ed incremento il punteggio in pagina
+                playerScore.innerHTML = `Score: ${++score}`
+
+                if (score === maxPoints) {
+                    endGame(score, true)
+                }
+            }
+
             // Aggiungo il gameover in caso di vittoria o di bomba colpita
         })
 
-        // generiamo le bombe
 
-        const bombs = casualBombs(totalCells, totalBombs);
-        console.log(bombs)
 
         // Appendo la classe in pagina
 
